@@ -1,0 +1,26 @@
+{
+  "name": "grossman",
+  "version": "0.0.0",
+  "description": "Utility to extract and manipulate transformation matrices on DOM elements",
+  "main": "dist/grossman.js",
+  "scripts": {
+    "test": "ava ./**/*.test.js"
+  },
+  "keywords": [
+    "dom",
+    "matrix",
+    "matrix3d",
+    "transform"
+  ],
+  "author": "Jeremias Menichelli",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^1.0.0",
+    "sinon": "^7.3.2"
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
+  }
+}
