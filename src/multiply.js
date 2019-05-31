@@ -18,7 +18,11 @@ function multiply(f, g) {
  * @returns {number}
  */
 function resolveValue(row, matrix, columnPosition) {
-  return row.reduce((acc, rowValue, rowPosition) => acc + rowValue * matrix[rowPosition][columnPosition], 0)
+  return row.reduce(
+    (acc, rowValue, rowPosition) =>
+      acc + rowValue * matrix[rowPosition][columnPosition],
+    0
+  )
 }
 
 /**

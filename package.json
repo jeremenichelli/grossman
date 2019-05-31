@@ -1,26 +1,71 @@
 {
   "name": "grossman",
   "version": "0.0.0",
-  "description": "Utility to extract and manipulate transformation matrices on DOM elements",
+  "description": "Petit animation engine",
   "main": "dist/grossman.js",
+  "browser": "dist/grossman.umd.js",
+  "module": "dist/grossman.esm.js",
   "scripts": {
-    "test": "ava ./**/*.test.js"
+    "format": "prettier ./**/*.js --write",
+    "test": "ava --verbose",
+    "prebuild": "npm test",
+    "start": "microbundle watch -i ./src/index.js",
+    "build": "microbundle -i ./src/index.js",
+    "release": "travis-deploy-once 'semantic-release'"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremenichelli/grossman.git"
   },
   "keywords": [
-    "dom",
     "matrix",
-    "matrix3d",
-    "transform"
+    "transform",
+    "dom"
   ],
   "author": "Jeremias Menichelli",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeremenichelli/grossman/issues"
+  },
+  "homepage": "https://github.com/jeremenichelli/grossman#readme",
   "devDependencies": {
-    "ava": "^1.0.0",
-    "sinon": "^7.3.2"
+    "@commitlint/cli": "^7.6.1",
+    "@commitlint/config-conventional": "^7.6.0",
+    "ava": "^1.4.1",
+    "esm": "^3.2.25",
+    "husky": "^2.3.0",
+    "lint-staged": "^8.1.7",
+    "microbundle": "^0.11.0",
+    "prettier": "^1.17.1",
+    "semantic-release": "^15.9.9",
+    "sinon": "^6.2.0",
+    "travis-deploy-once": "^5.0.3"
   },
   "ava": {
     "require": [
       "esm"
     ]
+  },
+  "lint-staged": {
+    "./**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
