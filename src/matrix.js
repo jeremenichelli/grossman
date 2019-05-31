@@ -45,24 +45,24 @@ function getRotateMatrix(alpha) {
  */
 export default class Matrix {
   constructor(matrixRepresentation) {
-    this._arrayMatrix = matrixRepresentation
-    this._stringMatrix = getMatrixString(matrixRepresentation)
+    this.__arrayMatrix__ = matrixRepresentation
+    this.__stringMatrix__ = getMatrixString(matrixRepresentation)
   }
 
   toString() {
-    return this._stringMatrix
+    return this.__stringMatrix__
   }
 
   toArray() {
-    return this._arrayMatrix
+    return this.__arrayMatrix__
   }
 
   scaleTo(x, y, z) {
     const scaleMatrix = getScaleMatrix(x, y, z)
     const calculatedMatrix = multiply(this.toArray(), scaleMatrix)
 
-    this._arrayMatrix = calculatedMatrix
-    this._stringMatrix = getMatrixString(calculatedMatrix)
+    this.__arrayMatrix__ = calculatedMatrix
+    this.__stringMatrix__ = getMatrixString(calculatedMatrix)
 
     return this
   }
@@ -71,8 +71,8 @@ export default class Matrix {
     const translateMatrix = getTranslateMatrix(x, y, z)
     const calculatedMatrix = multiply(this.toArray(), translateMatrix)
 
-    this._arrayMatrix = calculatedMatrix
-    this._stringMatrix = getMatrixString(calculatedMatrix)
+    this.__arrayMatrix__ = calculatedMatrix
+    this.__stringMatrix__ = getMatrixString(calculatedMatrix)
 
     return this
   }
@@ -81,8 +81,8 @@ export default class Matrix {
     const rotateMatrix = getRotateMatrix(alpha)
     const calculatedMatrix = multiply(this.toArray(), rotateMatrix)
 
-    this._arrayMatrix = calculatedMatrix
-    this._stringMatrix = getMatrixString(calculatedMatrix)
+    this.__arrayMatrix__ = calculatedMatrix
+    this.__stringMatrix__ = getMatrixString(calculatedMatrix)
 
     return this
   }
@@ -91,8 +91,8 @@ export default class Matrix {
     const skewMatrix = getSkewMatrix(alpha, beta)
     const calculatedMatrix = multiply(this.toArray(), skewMatrix)
 
-    this._arrayMatrix = calculatedMatrix
-    this._stringMatrix = getMatrixString(calculatedMatrix)
+    this.__arrayMatrix__ = calculatedMatrix
+    this.__stringMatrix__ = getMatrixString(calculatedMatrix)
 
     return this
   }
