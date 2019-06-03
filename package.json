@@ -1,7 +1,7 @@
 {
   "name": "grossman",
   "version": "0.0.0",
-  "description": "Petit animation engine",
+  "description": "Utility belt to handle transformation matrices in DOM elements",
   "main": "dist/grossman.js",
   "browser": "dist/grossman.umd.js",
   "module": "dist/grossman.esm.js",
