@@ -1,118 +1,137 @@
-import multiply from './helpers/multiply'
+import multiply from './multiply'
 
-function getMatrixString(matrix) {
-  // transpose matrix and trim spaces manually to
+function getMatrixString(mtrx) {
+  // transpose matrix (mtrx) and trim spaces manually to
   // avoid extra memory allocations
-  return (`matrix3d(
-    ${matrix[0][0]},${matrix[1][0]},${matrix[2][0]},${matrix[3][0]},
-    ${matrix[0][1]},${matrix[1][1]},${matrix[2][1]},${matrix[3][1]},
-    ${matrix[0][2]},${matrix[1][2]},${matrix[2][2]},${matrix[3][2]},
-    ${matrix[0][3]},${matrix[1][3]},${matrix[2][3]},${matrix[3][3]}
-  )`).replace(/[\s\t\n]/g, '')
+  const firstRow = `${mtrx[0][0]},${mtrx[1][0]},${mtrx[2][0]},${mtrx[3][0]}`
+  const secondRow = `${mtrx[0][1]},${mtrx[1][1]},${mtrx[2][1]},${mtrx[3][1]}`
+  const thirdRow = `${mtrx[0][2]},${mtrx[1][2]},${mtrx[2][2]},${mtrx[3][2]}`
+  const fourthRow = `${mtrx[0][3]},${mtrx[1][3]},${mtrx[2][3]},${mtrx[3][3]}`
+
+  return `matrix3d(${firstRow},${secondRow},${thirdRow},${fourthRow})`
 }
 
 function getScaleMatrix(x, y, z) {
-  return [
-    [x, 0, 0, 0],
-    [0, y, 0, 0],
-    [0, 0, z, 0],
-    [0, 0, 0, 1],
-  ]
+  return [[x, 0, 0, 0], [0, y, 0, 0], [0, 0, z, 0], [0, 0, 0, 1]]
 }
 
 function getTranslateMatrix(x, y, z) {
-  return [
-    [1, 0, 0, x],
-    [0, 1, 0, y],
-    [0, 0, 1, z],
-    [0, 0, 0, 1],
-  ]
+  return [[1, 0, 0, x], [0, 1, 0, y], [0, 0, 1, z], [0, 0, 0, 1]]
 }
 
 function getSkewMatrix(alpha, beta) {
-  const alphaInRadians = Math.PI * alpha / 180
-  const betaInRadians = Math.PI * beta / 180
+  const alphaInRadians = (Math.PI * alpha) / 180
+  const betaInRadians = (Math.PI * beta) / 180
   // fixing decimals to six, as most browsers do
   const alphaTan = Math.tan(alphaInRadians).toFixed(6)
   const betaTan = Math.tan(betaInRadians).toFixed(6)
 
-  return [
-    [1, alphaTan, 0, 0],
-    [betaTan, 1, 0, 0],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1],
-  ]
+  return [[1, alphaTan, 0, 0], [betaTan, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 }
 
 function getRotateMatrix(alpha) {
-  const angleInRadians = Math.PI * alpha/180
+  const angleInRadians = (Math.PI * alpha) / 180
   // fixing decimals to six, as most browsers do
   const cos = Math.cos(angleInRadians).toFixed(6)
   const sin = Math.sin(angleInRadians).toFixed(6)
 
-  return [
-    [cos, -sin, 0, 0],
-    [sin, cos, 0, 0],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1],
-  ]
+  return [[cos, -sin, 0, 0], [sin, cos, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 }
 
 /**
  * Builds a matrix for later transform manipulation
  * @constructor matrix
- * @param {Array} matrixRepresentation matrix representated through arrays inside of arrays
+ * @param {Array} matrixRepresentation - matrix representated through arrays inside of arrays
  */
 export default class Matrix {
   constructor(matrixRepresentation) {
-    this._arrayMatrix = matrixRepresentation
-    this._stringMatrix = getMatrixString(matrixRepresentation)
+    this.__array__ = matrixRepresentation
+    this.__string__ = getMatrixString(matrixRepresentation)
   }
 
+  /**
+   * Returns the matrix as a 3d transform string for DOM elements.
+   * @method toString
+   * @returns {string} matrix as matrix3d trasnform string
+   */
   toString() {
-    return this._stringMatrix
+    return this.__string__
   }
 
+  /**
+   * Returns a representation of the matrix object using arrays.
+   * @method toArray
+   * @returns {Array} array of arrays of the current status of the matrix
+   */
   toArray() {
-    return this._arrayMatrix
+    return this.__array__
   }
 
-  scaleTo(x, y, z) {
+  /**
+   * Applies a scale transform to matrix object
+   * @method scaleTo
+   * @params x - scaling over the x axis
+   * @params y - scaling over the y axis
+   * @params z - scaling over the z axis
+   * @memberof Matrix
+   */
+  scaleTo(x = 1, y = 1, z = 1) {
     const scaleMatrix = getScaleMatrix(x, y, z)
     const calculatedMatrix = multiply(this.toArray(), scaleMatrix)
 
-    this._arrayMatrix = calculatedMatrix
-    this._stringMatrix = getMatrixString(calculatedMatrix)
+    this.__array__ = calculatedMatrix
+    this.__string__ = getMatrixString(calculatedMatrix)
 
     return this
   }
 
-  translateTo(x, y, z) {
+  /**
+   * Applies a translation transform to the matrix object
+   * @method translateTo
+   * @params x - translation over the x axis
+   * @params y - translation over the y axis
+   * @params z - translation over the z axis
+   * @memberof Matrix
+   */
+  translateTo(x = 0, y = 0, z = 0) {
     const translateMatrix = getTranslateMatrix(x, y, z)
     const calculatedMatrix = multiply(this.toArray(), translateMatrix)
 
-    this._arrayMatrix = calculatedMatrix
-    this._stringMatrix = getMatrixString(calculatedMatrix)
+    this.__array__ = calculatedMatrix
+    this.__string__ = getMatrixString(calculatedMatrix)
 
     return this
   }
 
-  rotateTo(alpha) {
+  /**
+   * Applies a rotation transform to the matrix object
+   * @method rotateTo
+   * @params alpha - rotation over the z axis
+   * @memberof Matrix
+   */
+  rotateTo(alpha = 0) {
     const rotateMatrix = getRotateMatrix(alpha)
     const calculatedMatrix = multiply(this.toArray(), rotateMatrix)
 
-    this._arrayMatrix = calculatedMatrix
-    this._stringMatrix = getMatrixString(calculatedMatrix)
+    this.__array__ = calculatedMatrix
+    this.__string__ = getMatrixString(calculatedMatrix)
 
     return this
   }
 
-  skewTo(alpha, beta) {
+  /**
+   * Applies a skewing transform to the matrix object
+   * @method skewTo
+   * @params alpha - skewing over the x axis
+   * @params beta - skewing over the y axis
+   * @memberof Matrix
+   */
+  skewTo(alpha = 0, beta = 0) {
     const skewMatrix = getSkewMatrix(alpha, beta)
     const calculatedMatrix = multiply(this.toArray(), skewMatrix)
 
-    this._arrayMatrix = calculatedMatrix
-    this._stringMatrix = getMatrixString(calculatedMatrix)
+    this.__array__ = calculatedMatrix
+    this.__string__ = getMatrixString(calculatedMatrix)
 
     return this
   }
