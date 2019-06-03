@@ -153,7 +153,7 @@ matrix
 el.transform.style = matrix.toString()
 ```
 
-_This is the actual motivation of the project, the extraction, easy incremental transformation and later application of a transformation matrix of a DOM element._
+_This is the actual motivation of the project, the easy extraction, incremental transformation and later application of a transformation matrix in a DOM element._
 
 ## Contributing
 
