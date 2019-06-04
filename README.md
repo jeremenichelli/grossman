@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jeremenichelli/grossman.svg?branch=master)](https://travis-ci.org/jeremenichelli/grossman)
 
-🗳 Utility belt to handle transformation matrices in DOM elements
+📚 Utility belt to handle transformation matrices in DOM elements
 
 _The name of the library comes from Stanley Grossman, author of Elementary Linear Algebra book._
 
