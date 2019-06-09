@@ -45,8 +45,8 @@ function getRotateMatrix(alpha) {
  */
 export default class Matrix {
   constructor(matrixRepresentation) {
-    this.__array__ = matrixRepresentation
-    this.__string__ = getMatrixString(matrixRepresentation)
+    this.__a = matrixRepresentation
+    this.__s = getMatrixString(matrixRepresentation)
   }
 
   /**
@@ -55,7 +55,7 @@ export default class Matrix {
    * @returns {string} matrix as matrix3d trasnform string
    */
   toString() {
-    return this.__string__
+    return this.__s
   }
 
   /**
@@ -64,7 +64,7 @@ export default class Matrix {
    * @returns {Array} array of arrays of the current status of the matrix
    */
   toArray() {
-    return this.__array__
+    return this.__a
   }
 
   /**
@@ -79,8 +79,8 @@ export default class Matrix {
     const scaleMatrix = getScaleMatrix(x, y, z)
     const calculatedMatrix = multiply(this.toArray(), scaleMatrix)
 
-    this.__array__ = calculatedMatrix
-    this.__string__ = getMatrixString(calculatedMatrix)
+    this.__a = calculatedMatrix
+    this.__s = getMatrixString(calculatedMatrix)
 
     return this
   }
@@ -97,8 +97,13 @@ export default class Matrix {
     const translateMatrix = getTranslateMatrix(x, y, z)
     const calculatedMatrix = multiply(this.toArray(), translateMatrix)
 
-    this.__array__ = calculatedMatrix
-    this.__string__ = getMatrixString(calculatedMatrix)
+    /*
+     * private fields minified to have less impact on bundle size
+     * __a hoists the array representation of the matrix
+     * __s hoists the string representation of the matrix
+     */
+    this.__a = calculatedMatrix
+    this.__s = getMatrixString(calculatedMatrix)
 
     return this
   }
@@ -113,8 +118,8 @@ export default class Matrix {
     const rotateMatrix = getRotateMatrix(alpha)
     const calculatedMatrix = multiply(this.toArray(), rotateMatrix)
 
-    this.__array__ = calculatedMatrix
-    this.__string__ = getMatrixString(calculatedMatrix)
+    this.__a = calculatedMatrix
+    this.__s = getMatrixString(calculatedMatrix)
 
     return this
   }
@@ -130,8 +135,8 @@ export default class Matrix {
     const skewMatrix = getSkewMatrix(alpha, beta)
     const calculatedMatrix = multiply(this.toArray(), skewMatrix)
 
-    this.__array__ = calculatedMatrix
-    this.__string__ = getMatrixString(calculatedMatrix)
+    this.__a = calculatedMatrix
+    this.__s = getMatrixString(calculatedMatrix)
 
     return this
   }

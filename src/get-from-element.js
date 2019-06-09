@@ -2,12 +2,10 @@ import Matrix from './matrix'
 import { identity } from './constants'
 
 // regexp to detect transform matrices
-const matrixRegEx = /^(matrix\()/g
-const matrix3dRegEx = /^(matrix3d\()/g
+const matrixRegEx = /^(matrix(3d)?\()/g
 
 // regexp to strip matrix notation
-const matrixCleanRegEx = /^(matrix\()|\)/g
-const matrix3dCleanRegEx = /^(matrix3d\()|\)/g
+const matrixCleanRegEx = /^(matrix(3d)?\()|\)/g
 
 // regexp to split values
 const stripRegEx = /,\s|,/g
@@ -15,7 +13,7 @@ const stripRegEx = /,\s|,/g
 /**
  * Returns a matrix object representation of an element's transformation
  * @method getMatrixFromElement
- * @params {node} el - element to extract transformations from
+ * @params {Node} el - element to extract transformations from
  * @returns {Matrix}
  */
 const getMatrixFromElement = (el) => {
@@ -23,14 +21,14 @@ const getMatrixFromElement = (el) => {
 
   // handle 2d matrix
   if (matrixRegEx.test(transformMatrix)) {
-    const stringMatrix = transformMatrix
+    const parsedMatrix = transformMatrix
       .replace(matrixCleanRegEx, '')
       .split(stripRegEx)
-    const numberedMatrix = stringMatrix.map((n) => parseFloat(n))
+      .map((n) => parseFloat(n))
 
     const matrix = [
-      [numberedMatrix[0], numberedMatrix[2], 0, 0],
-      [numberedMatrix[1], numberedMatrix[3], 0, 0],
+      [parsedMatrix[0], parsedMatrix[2], 0, 0],
+      [parsedMatrix[1], parsedMatrix[3], 0, 0],
       [0, 0, 1, 0],
       [0, 0, 0, 1]
     ]
@@ -39,37 +37,17 @@ const getMatrixFromElement = (el) => {
   }
 
   // handle 3d matrix
-  if (matrix3dRegEx.test(transformMatrix)) {
-    const stringMatrix = transformMatrix
-      .replace(matrix3dCleanRegEx, '')
+  if (matrixRegEx.test(transformMatrix)) {
+    const parsedMatrix = transformMatrix
+      .replace(matrixCleanRegEx, '')
       .split(stripRegEx)
-    const numberedMatrix = stringMatrix.map((n) => parseFloat(n))
+      .map((n) => parseFloat(n))
 
     const matrix = [
-      [
-        numberedMatrix[0],
-        numberedMatrix[4],
-        numberedMatrix[8],
-        numberedMatrix[12]
-      ],
-      [
-        numberedMatrix[1],
-        numberedMatrix[5],
-        numberedMatrix[9],
-        numberedMatrix[13]
-      ],
-      [
-        numberedMatrix[2],
-        numberedMatrix[6],
-        numberedMatrix[10],
-        numberedMatrix[14]
-      ],
-      [
-        numberedMatrix[3],
-        numberedMatrix[7],
-        numberedMatrix[11],
-        numberedMatrix[15]
-      ]
+      [parsedMatrix[0], parsedMatrix[4], parsedMatrix[8], parsedMatrix[12]],
+      [parsedMatrix[1], parsedMatrix[5], parsedMatrix[9], parsedMatrix[13]],
+      [parsedMatrix[2], parsedMatrix[6], parsedMatrix[10], parsedMatrix[14]],
+      [parsedMatrix[3], parsedMatrix[7], parsedMatrix[11], parsedMatrix[15]]
     ]
 
     return new Matrix(matrix)
