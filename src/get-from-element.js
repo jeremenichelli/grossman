@@ -24,11 +24,11 @@ const getMatrixFromElement = (el) => {
     const stringMatrix = transformMatrix
       .replace(matrixCleanRegEx, '')
       .split(stripRegEx)
-    const numberedMatrix = stringMatrix.map((n) => parseFloat(n))
+    const parsedMatrix = stringMatrix.map((n) => parseFloat(n))
 
     const matrix = [
-      [numberedMatrix[0], numberedMatrix[2], 0, 0],
-      [numberedMatrix[1], numberedMatrix[3], 0, 0],
+      [parsedMatrix[0], parsedMatrix[2], 0, 0],
+      [parsedMatrix[1], parsedMatrix[3], 0, 0],
       [0, 0, 1, 0],
       [0, 0, 0, 1]
     ]
@@ -41,33 +41,13 @@ const getMatrixFromElement = (el) => {
     const stringMatrix = transformMatrix
       .replace(matrixCleanRegEx, '')
       .split(stripRegEx)
-    const numberedMatrix = stringMatrix.map((n) => parseFloat(n))
+    const parsedMatrix = stringMatrix.map((n) => parseFloat(n))
 
     const matrix = [
-      [
-        numberedMatrix[0],
-        numberedMatrix[4],
-        numberedMatrix[8],
-        numberedMatrix[12]
-      ],
-      [
-        numberedMatrix[1],
-        numberedMatrix[5],
-        numberedMatrix[9],
-        numberedMatrix[13]
-      ],
-      [
-        numberedMatrix[2],
-        numberedMatrix[6],
-        numberedMatrix[10],
-        numberedMatrix[14]
-      ],
-      [
-        numberedMatrix[3],
-        numberedMatrix[7],
-        numberedMatrix[11],
-        numberedMatrix[15]
-      ]
+      [parsedMatrix[0], parsedMatrix[4], parsedMatrix[8], parsedMatrix[12]],
+      [parsedMatrix[1], parsedMatrix[5], parsedMatrix[9], parsedMatrix[13]],
+      [parsedMatrix[2], parsedMatrix[6], parsedMatrix[10], parsedMatrix[14]],
+      [parsedMatrix[3], parsedMatrix[7], parsedMatrix[11], parsedMatrix[15]]
     ]
 
     return new Matrix(matrix)
