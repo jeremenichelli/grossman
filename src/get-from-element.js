@@ -2,12 +2,10 @@ import Matrix from './matrix'
 import { identity } from './constants'
 
 // regexp to detect transform matrices
-const matrixRegEx = /^(matrix\()/g
-const matrix3dRegEx = /^(matrix3d\()/g
+const matrixRegEx = /^(matrix(3d)?\()/g
 
 // regexp to strip matrix notation
-const matrixCleanRegEx = /^(matrix\()|\)/g
-const matrix3dCleanRegEx = /^(matrix3d\()|\)/g
+const matrixCleanRegEx = /^(matrix(3d)?\()|\)/g
 
 // regexp to split values
 const stripRegEx = /,\s|,/g
@@ -39,9 +37,9 @@ const getMatrixFromElement = (el) => {
   }
 
   // handle 3d matrix
-  if (matrix3dRegEx.test(transformMatrix)) {
+  if (matrixRegEx.test(transformMatrix)) {
     const stringMatrix = transformMatrix
-      .replace(matrix3dCleanRegEx, '')
+      .replace(matrixCleanRegEx, '')
       .split(stripRegEx)
     const numberedMatrix = stringMatrix.map((n) => parseFloat(n))
 
