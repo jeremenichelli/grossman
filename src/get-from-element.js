@@ -13,7 +13,7 @@ const stripRegEx = /,\s|,/g
 /**
  * Returns a matrix object representation of an element's transformation
  * @method getMatrixFromElement
- * @params {node} el - element to extract transformations from
+ * @params {Node} el - element to extract transformations from
  * @returns {Matrix}
  */
 const getMatrixFromElement = (el) => {
@@ -21,10 +21,10 @@ const getMatrixFromElement = (el) => {
 
   // handle 2d matrix
   if (matrixRegEx.test(transformMatrix)) {
-    const stringMatrix = transformMatrix
+    const parsedMatrix = transformMatrix
       .replace(matrixCleanRegEx, '')
       .split(stripRegEx)
-    const parsedMatrix = stringMatrix.map((n) => parseFloat(n))
+      .map((n) => parseFloat(n))
 
     const matrix = [
       [parsedMatrix[0], parsedMatrix[2], 0, 0],
@@ -38,10 +38,10 @@ const getMatrixFromElement = (el) => {
 
   // handle 3d matrix
   if (matrixRegEx.test(transformMatrix)) {
-    const stringMatrix = transformMatrix
+    const parsedMatrix = transformMatrix
       .replace(matrixCleanRegEx, '')
       .split(stripRegEx)
-    const parsedMatrix = stringMatrix.map((n) => parseFloat(n))
+      .map((n) => parseFloat(n))
 
     const matrix = [
       [parsedMatrix[0], parsedMatrix[4], parsedMatrix[8], parsedMatrix[12]],
