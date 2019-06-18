@@ -8,7 +8,7 @@ const matrixRegEx = /^(matrix(3d)?\()/g
 const matrixCleanRegEx = /^(matrix(3d)?\()|\)/g
 
 // regexp to split values
-const stripRegEx = /,\s|,/g
+const stripRegEx = /\s*,\s*/g
 
 /**
  * Returns a matrix object representation of an element's transformation

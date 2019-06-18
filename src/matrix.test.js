@@ -48,3 +48,17 @@ test('skewTo generates correct 3d matrix result', (t) => {
 
   t.is(result, expectedString)
 })
+
+test('decompose returns object with correct transform state', (t) => {
+  const matrix = new Matrix([
+    [0.732465, -0.514965, 0, 10], [1.83062, 1.93261, 0, 20], [0, 0, 3, -35], [0, 0, 0, 1]
+  ])
+  const result = matrix.decompose()
+
+  t.deepEqual(result, {
+    translate: [ 10, 20, -35],
+    scale: [1.2, 2.1, 3],
+    rotation: [35],
+    skew: [10, 20]
+  })
+})

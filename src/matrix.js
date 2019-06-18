@@ -20,20 +20,20 @@ function getTranslateMatrix(x, y, z) {
 }
 
 function getSkewMatrix(alpha, beta) {
-  const alphaInRadians = (Math.PI * alpha) / 180
-  const betaInRadians = (Math.PI * beta) / 180
+  const alphaInRadians = Math.PI * alpha / 180
+  const betaInRadians = Math.PI * beta / 180
   // fixing decimals to six, as most browsers do
-  const alphaTan = Math.tan(alphaInRadians).toFixed(6)
-  const betaTan = Math.tan(betaInRadians).toFixed(6)
+  const alphaTan = +Math.tan(alphaInRadians).toFixed(6)
+  const betaTan = +Math.tan(betaInRadians).toFixed(6)
 
   return [[1, alphaTan, 0, 0], [betaTan, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 }
 
 function getRotateMatrix(alpha) {
-  const angleInRadians = (Math.PI * alpha) / 180
+  const angleInRadians = Math.PI * alpha / 180
   // fixing decimals to six, as most browsers do
-  const cos = Math.cos(angleInRadians).toFixed(6)
-  const sin = Math.sin(angleInRadians).toFixed(6)
+  const cos = +Math.cos(angleInRadians).toFixed(6)
+  const sin = +Math.sin(angleInRadians).toFixed(6)
 
   return [[cos, -sin, 0, 0], [sin, cos, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 }
@@ -139,5 +139,12 @@ export default class Matrix {
     this.__s = getMatrixString(calculatedMatrix)
 
     return this
+  }
+
+  decompose() {
+    const translate = [this.__a[0][3], this.__a[1][3], this.__a[2][3],]
+    return {
+      translate,
+    }
   }
 }
