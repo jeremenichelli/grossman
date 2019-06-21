@@ -1,4 +1,6 @@
 import multiply from './multiply'
+import normalizeMatrix from './normalize-matrix'
+import calculateVectorLength from './vector-length'
 
 function getMatrixString(mtrx) {
   // transpose matrix (mtrx) and trim spaces manually to
@@ -143,8 +145,19 @@ export default class Matrix {
 
   decompose() {
     const translate = [this.__a[0][3], this.__a[1][3], this.__a[2][3],]
+    const normalized = normalizeMatrix(this.__a)
+
+    const reducedMatrix = [
+      [ this.__a[0][0], this.__a[1][0], this.__a[2][0] ],
+      [ this.__a[0][1], this.__a[1][1], this.__a[2][1] ],
+      [ this.__a[0][2], this.__a[1][2], this.__a[2][2] ],
+    ]
+
+    const scale = reducedMatrix.map(row => calculateVectorLength(row))
+
     return {
       translate,
+      scale
     }
   }
 }

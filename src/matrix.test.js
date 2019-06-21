@@ -55,10 +55,8 @@ test('decompose returns object with correct transform state', (t) => {
   ])
   const result = matrix.decompose()
 
-  t.deepEqual(result, {
-    translate: [ 10, 20, -35],
-    scale: [1.2, 2.1, 3],
-    rotation: [35],
-    skew: [10, 20]
-  })
+  t.deepEqual(result.translate, [ 10, 20, -35])
+  t.deepEqual(result.scale, [1.2, 2.1, 3])
+  t.deepEqual(result.rotation, 35)
+  t.deepEqual(result.skew, [10,20])
 })
