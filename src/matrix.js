@@ -144,16 +144,19 @@ export default class Matrix {
   }
 
   decompose() {
-    const translate = [this.__a[0][3], this.__a[1][3], this.__a[2][3],]
     const normalized = normalizeMatrix(this.__a)
-
+    const translate = [normalized[0][3], normalized[1][3], normalized[2][3],]
+    
     const reducedMatrix = [
-      [ this.__a[0][0], this.__a[1][0], this.__a[2][0] ],
-      [ this.__a[0][1], this.__a[1][1], this.__a[2][1] ],
-      [ this.__a[0][2], this.__a[1][2], this.__a[2][2] ],
+      [ normalized[0][0], normalized[1][0], normalized[2][0] ],
+      [ normalized[0][1], normalized[1][1], normalized[2][1] ],
+      [ normalized[0][2], normalized[1][2], normalized[2][2] ],
     ]
 
-    const scale = reducedMatrix.map(row => calculateVectorLength(row))
+    const scale = reducedMatrix.map(row => {
+      const rnd = 1000000
+      return (Math.sqrt(row[0] * row[0] + row[1] * row[1] + row[2] * row[2]) * rnd + 0.5 | 0) / rnd
+    })
 
     return {
       translate,
